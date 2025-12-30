@@ -100,6 +100,22 @@ engineSound.loop = true;
 bgMusic.volume = 0.6;
 engineSound.volume = 0.3;
 
+/* ================== MOBILE CONTROLS VISIBILITY ================== */
+
+function showMobileControls() {
+  const controls = document.getElementById("mobileControls");
+  if (controls && window.innerWidth <= 768) {
+    controls.style.display = "flex";
+  }
+}
+
+function hideMobileControls() {
+  const controls = document.getElementById("mobileControls");
+  if (controls) {
+    controls.style.display = "none";
+  }
+}
+
 /* ================== SETUP ================== */
 
 function applyDifficulty(difficulty) {
@@ -162,6 +178,7 @@ function startGame() {
   gameOverPopup.classList.remove("show");
   restartBtn.style.display = "none";
 
+  showMobileControls();
   requestAnimationFrame(gameLoop);
 }
 
@@ -179,13 +196,20 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Pause
+// Pause / Resume
 document.addEventListener("keydown", (e) => {
   if (e.key.toLowerCase() === "p" && gameRunning && !playerCar.collided) {
     paused = !paused;
     pauseOverlay.style.display = paused ? "flex" : "none";
-    paused ? bgMusic.pause() : bgMusic.play();
-    if (!paused) requestAnimationFrame(gameLoop);
+
+    if (paused) {
+      bgMusic.pause();
+      hideMobileControls();
+    } else {
+      bgMusic.play();
+      showMobileControls();
+      requestAnimationFrame(gameLoop);
+    }
   }
 });
 
@@ -212,6 +236,7 @@ if (leftBtn && rightBtn) {
     e.preventDefault();
     mobileMoveLeft();
   });
+
   rightBtn.addEventListener("touchstart", (e) => {
     e.preventDefault();
     mobileMoveRight();
@@ -364,6 +389,7 @@ function draw() {
 function showGameOver() {
   gameOverPopup.classList.add("show");
   restartBtn.style.display = "block";
+  hideMobileControls();
 
   if (score > getTopScore()) {
     setTopScore(score);
@@ -399,11 +425,12 @@ function resetGame() {
   playerCar.angle = 0;
   playerCar.angleTarget = 0;
 
+  hideMobileControls();
   startButton.style.display = "block";
 }
 
 /* ================== INIT ================== */
 
 applyDifficulty(currentDifficulty);
+hideMobileControls();
 draw();
-
