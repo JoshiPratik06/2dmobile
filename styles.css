@@ -396,3 +396,8 @@ canvas {
     padding: 6px 10px;
   }
 }
+/* === Disable DOM HUD (Canvas HUD is used) === */
+#scoreContainer {
+  display: none;
+}
+
