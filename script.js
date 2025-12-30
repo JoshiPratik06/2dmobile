@@ -285,7 +285,7 @@ function drawHUD() {
   const hudWidth = isMobile ? 220 : 260;
   const hudHeight = isMobile ? 80 : 100;
   const hudX = isMobile ? canvas.width / 2 - hudWidth / 2 : 15;
-  const hudY = isMobile ? 10 : 15;
+  const hudY = isMobile ? 30 : 15;
 
   ctx.fillStyle = "rgba(0,0,0,0.65)";
   ctx.fillRect(hudX, hudY, hudWidth, hudHeight);
@@ -406,3 +406,4 @@ function resetGame() {
 
 applyDifficulty(currentDifficulty);
 draw();
+
